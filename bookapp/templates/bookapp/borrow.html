@@ -1,0 +1,76 @@
+{% extends 'bookapp/base.html' %}
+{% block title %}ยืมหนังสือ{% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <h3>แบบฟอร์มยืมหนังสือ</h3>
+    <form action="borrow" method="POST" class="form">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="" class="form-label">ผู้ที่ต้องการยืม</label>
+          <select class="form-select" aria-label="" name="m_user" required>
+            <option selected>เลือกผู้ที่ต้องการยืม</option>
+
+            {% for i in member %} {% comment %} ดึงข้อมูลจาก tb_member {% endcomment %}
+            <option value="{{i.m_user}}">{{i.m_name}}</option>
+            {% endfor %}
+
+          </select>
+        </div>
+        <div class="mb-3">
+            <label for="" class="form-label">หนังสือที่ต้องการยืม</label>
+            <select class="form-select" aria-label="" name="b_id" required>
+              <option selected>เลือกหนังสือที่ต้องการยืม</option>
+              
+              {% for j in book %} {% comment %} ดึงข้อมูลจาก tb_book {% endcomment %}
+              <option value="{{j.b_id}}">{{j.b_name}}</option>
+              {% endfor %}
+
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="" class="form-label">วันที่ยืม</label>
+            <input type="text" name="nowdate" value="{{nowtime}}">
+          </div>
+        <button type="submit" class="btn btn-primary">ยืนยันข้อมูล</button>
+      </form>
+      <p></p>
+
+      <form action="confirm" method="POST">
+
+        {% csrf_token %}
+        <h4>ใบรายการยืมหนังสือ</h4>
+        <div class="mb-3">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                    <th>ชื่อผู้ยืมคืน</th><td>
+                       {% for n in member2 %}
+                       {{n.m_name}}
+                       <input type="hidden" name="member_user" value="{{n.m_id}}">
+                       {% endfor %}
+                    </td>
+                    </tr>
+                    <tr>
+                    <th>ชื่อหนังสือ</th><td>
+                        {% for m in book2 %}
+                        {{m.b_name}}
+                        <input type="hidden" name="book_user" value="{{m.b_id}}">
+                        {% endfor %}
+                    </td>
+                    </tr>
+                    <tr>
+                    <th>วันที่ยืม</th><td>{{nowtime2}}
+                        <input type="hidden" name="book_time" value="{{nowtime2}}">
+                    </td>
+                    </tr>
+                    <tr>
+                    <th>วันที่คืน</th><td></td>
+                    </tr>
+                </thead>
+              </table>
+        </div>
+        <button type="submit"  class="btn btn-success">บันทึกข้อมูล</button> 
+        <a href="borrow"  class="btn btn-warning">เริ่มต้นใหม่</a>
+    </form>
+  </div>
+  {% endblock content %}

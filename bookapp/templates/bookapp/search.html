@@ -1,0 +1,34 @@
+{% extends 'bookapp/base.html' %}
+{% block title %}ผลการค้นหา{% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <h2>รายการยืมหนังสือทั้งหมด</h2>
+    <p></p>            
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ลำดับ</th>
+          <th>วันที่ยืม</th>
+          <th>วันที่คืน</th>
+          <th>รหัสหนังสือ</th>
+          <th>ชื่อหนังสือ</th>
+          <th>ชื่อผู้ยืมคืน</th>
+          <th>ค่าปรับ</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in Search %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{i.br_date_br}}</td>
+          <td>{{i.br_date_rt}}</td>
+          <td>{{i.b_id.b_id}}</td>
+          <td>{{i.b_id.b_name}}</td>
+          <td>{{i.m_user.m_name}}</td>
+          <td>{{i.br_fine}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endblock content %}

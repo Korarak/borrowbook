@@ -1,0 +1,72 @@
+{% extends 'bookapp/base.html' %}
+{% block title %}รายการยืม{% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <h2>รายการยืมหนังสือทั้งหมด</h2>
+    <form action="returnbook" class="d-flex" method="POST">
+      {% csrf_token %}
+      <input class="form-control me-2" type="text" name="search_return" placeholder="ค้นหารายการที่จะคืนหนังสือ">
+      <button class="btn btn-success" type="submit">Search</button>
+    </form>
+    <p></p>            
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ลำดับ</th>
+          <th>วันที่ยืม</th>
+          <th>วันที่คืน</th>
+          <th>รหัสหนังสือ</th>
+          <th>ชื่อหนังสือ</th>
+          <th>ชื่อผู้ยืมคืน</th>
+          <th>ค่าปรับ</th>
+          <th>การกระทำ</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in Search %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{i.br_date_br}}</td>
+          <td>
+            {% if i.br_date_rt is None %}
+            ยังไม่คืนหนังสือ
+            {% endif %}
+          </td>
+          <td>{{i.b_id.b_id}}</td>
+          <td>{{i.b_id.b_name}}</td>
+          <td>{{i.m_user.m_name}}</td>
+          <td>{{i.br_fine}}</td>
+          <th>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+              คืน
+            </button>
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">ยืนยันการคืน</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    {{i.b_id.b_id}}
+                    {{i.b_id.b_name}}
+                    {{i.m_user.m_name}}
+                    {{i.br_fine}}
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ยกเลิก</button>
+                    <a href="returnbookconfirm/{{i.br_id}}" class="btn btn-warning">คืน</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </th>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+   
+
+  </div>
+  {% endblock content %}

@@ -1,0 +1,31 @@
+{% extends 'bookapp/base.html' %}
+{% block title %}รายการยืม{% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <h2>สถิติการใช้งานห้องสมุด</h2>
+    <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">จำนวนหนังสือ</h4>
+          <p class="card-text"><h3>{{numbook}}</h3></p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">จำนวนสมาชิก</h4>
+          <p class="card-text"><h3>{{nummember}}</h3></p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">จำนวนการใช้บริการทั้งหมด(ครั้ง)</h4>
+          <p class="card-text"><h3>{{bookok}}</h3></p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">จำนวนหนังสือค้างส่ง</h4>
+          <p class="card-text"><h3>{{booklost}}</h3></p>
+        </div>
+      </div>
+  </div>
+  {% endblock content %}
